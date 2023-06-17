@@ -41,7 +41,7 @@ mex ./Mex_Functions/AstroNeuro_Spatial_mex.c
 prob_ensheathed_E = 0.9;
 prob_ensheathed_I = 0;
 % ensheathment strength
-% 1 means no difference, 0 kills the response
+% Note: a number in the range [0 1], where 0 means no ensheathment
 s_en = 0.5;
 
 %% Create connection matrix, initial conditions, etc.
