@@ -1,7 +1,6 @@
 %%
-% Plots all main figures for "Investigating the ability of astrocytes to 
-% drive neural network synchrony"
-% https://www.biorxiv.org/content/10.1101/2022.09.26.508928v1
+% Plots all main figures for Handy and Borisyuk. Investigating the 
+% ability of astrocytes to drive neural network synchrony. 2023
 %
 % See the individual files for additional details 
 %%
@@ -26,5 +25,9 @@ plotFig7;
 % Non-spatial, one population supplemental figure
 plotS1Fig;
 
-% Spatial supplemental figure
+% Non-spatial, one population supplemental figure
+% Ensheathment effects only tau or J
 plotS2Fig;
+
+% Spatial supplemental figure
+plotS3Fig;

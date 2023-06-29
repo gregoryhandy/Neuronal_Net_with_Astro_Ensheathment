@@ -2,7 +2,7 @@
 % Simulation results for the non-spatial one population model for networks
 % with and without astrocyte ensheathment
 %
-% Creates S1 Fig 3 for realization 2
+% Creates S1 Fig for realization 2 from Fig 3C
 %%
 
 % Load the data

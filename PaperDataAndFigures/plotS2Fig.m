@@ -1,69 +1,49 @@
 %%
-% Plots spatial correlation curves across different values of probability 
-% and strength of ensheathment 
+% Simulation results for the non-spatial one population model for networks
+% with and without astrocyte ensheathment
 %
-% Note: only excitatory neurons are ensheathed 
+% Creates S2 Fig
 %%
 
+% Load the data
+load('./CompressedData/NonspatialOnePop/S2Fig_both_ex.mat')
+load('./CompressedData/NonspatialOnePop/S2Fig_J_ex.mat')
+load('./CompressedData/NonspatialOnePop/S2Fig_tau_ex.mat')
 
-%% load the data and get the statistics
+%% Create all panels
+f=figure(9); clf; hold on
+f.Position(3:4)=[1395 303];
 
-load('./CompressedData/Spatial/Spatial_SuppData_condensed.mat')
-
-%%
-figure(9); clf;
-set(gca,'fontsize',16)
-% temp_title = sprintf('\\sigma_{rec} = %.2f, Prob_{Ensheath} = %.2f',param_matrix(1,1),param_matrix(2,1));
-
-subplot(1,3,1); hold on;
-set(gca,'fontsize',16)
-temp_title = sprintf('p_{en} = %.2f',param_matrix(2,13));
-title(temp_title)
-count =1;
-vis_vec = [1:-0.9/3:.1];
-for jj = 13:16
-    hold on
-    plot(distbins(jj,:), SCcorrSimMean(jj,:),'linewidth',1.5,'color',[1 0.5 0 vis_vec(count)])
-    count = count + 1;
-end
-x_temp = [0:0.01:1];
-plot(x_temp,0*x_temp,'k--')
-xlim([0 0.7])
-ylim([-0.04 .105])
-xlabel('Distance (a.u.)')
-ylabel('Spike count correlations')
-
-
-subplot(1,3,2); hold on;
-set(gca,'fontsize',16)
-temp_title = sprintf('p_{en} = %.2f',param_matrix(2,17));
-title(temp_title)
-count =1;
-for jj = 17:20
-    plot(distbins(jj,:), SCcorrSimMean(jj,:),'linewidth',1.5,'color',[1 0.5 0 vis_vec(count)])
-    count = count + 1;
-end
-x_temp = [0:0.01:1];
-plot(x_temp,0*x_temp,'k--')
-xlim([0 0.7])
-ylim([-0.04 .105])
-xlabel('Distance (a.u.)')
-
-subplot(1,3,3); hold on
-set(gca,'fontsize',16)
-temp_title = sprintf('p_{en} = %.2f',param_matrix(2,21));
-title(temp_title)
-legend_names_2 = [];
-count = 1;
-for jj = 21:24
-    plot(distbins(jj,:), SCcorrSimMean(jj,:),'linewidth',1.5,'color',[1 0.5 0 vis_vec(count)])
-    count = count + 1;
-    legend_names_2 = [legend_names_2, sprintf("s_{en}=%.2f",1-param_matrix(3,jj))];
+% Create the raster plots
+for ii = 1:3
+    if ii == 1
+        currData = S2Fig_both_ex;
+    elseif ii == 2
+        currData = S2Fig_J_ex;
+    else
+        currData = S2Fig_tau_ex;
+    end
+    
+    subplot(1,4,ii); hold on;
+    excNeurons = find(currData.sRaster(2,:)<100);
+    inhNeurons = find(currData.sRaster(2,:)>=5000 & currData.sRaster(2,:)<=5100);
+    
+    plot(currData.sRaster(1,excNeurons)/1000,currData.sRaster(2,excNeurons),'.')
+    plot(currData.sRaster(1,inhNeurons)/1000,currData.sRaster(2,inhNeurons)-4901,'.')
+    xlim([0 2.5])
+    set(gca,'fontsize',16)
+    xlabel('Time (s)')
+    ylabel('Neuron Index')
 end
 
-x_temp = [0:0.01:1];
-plot(x_temp,0*x_temp,'k--')
-xlim([0 0.7])
-ylim([-0.04 .105])
-legend(legend_names_2)
-xlabel('Distance (a.u.)')
+% Create the bar plot
+subplot(1,4,4); 
+bar([0 1],[S2Fig_J_ex.numSuccesses,S2Fig_tau_ex.numSuccesses]/10*100)
+xticklabels({'J','tau'})
+xlabel('Parameter')
+ylabel('Percent Synchronous')
+set(gca,'fontsize',16)
+box off
+
+
+
